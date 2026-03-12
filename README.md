@@ -1,64 +1,65 @@
-# 🧠 NeuroCore Sandbox
+# NeuroCore Sandbox
 
-> **RealityCodex** – Rebooting intelligence from reality upward.
+> RealityCodex - Rebooting intelligence from reality upward.
 
-This is the first experimental playground for building agents that learn meaning through **perception, feedback, and internal concept formation** — not language modeling.
+NeuroCore Sandbox is an experimental playground for grounded, meaning-first intelligence.
+The repo now includes a first working MVP: a small agent that learns in a deterministic grid world that fire is harmful and the goal is rewarding.
 
----
+## Goal
 
-## 🎯 Goal
+Build minimal cognitive systems that:
+- interact with a simulated world
+- form internal representations from experience
+- learn through feedback such as pain and success
+- evolve useful behavior over time
 
-To build a minimal cognitive system that:
-- Interacts with a simulated world
-- Forms internal representations based on experience
-- Learns through feedback (e.g., pain, success)
-- Evolves conceptual meaning over time
+## Current MVP
 
----
+The first implemented experiment is a fire-avoidance task:
+- an agent moves in a 5x5 grid
+- a fire tile gives negative reward
+- a goal tile gives positive reward
+- a tabular Q-learning agent improves through repeated episodes
+- grounded features include `near_fire`, `on_fire`, and `last_reward`
 
-## 🧪 First Experiment
+## Project structure
 
-> An agent learns that fire = pain by interacting with the environment.  
-It touches fire → receives negative signal → learns to avoid.
+- `env/gridworld.py`: deterministic fire-and-goal environment
+- `env/grounding_engine.py`: grounding helpers and compatibility adapter
+- `core/grounding.py`: interpretable concept extraction
+- `core/agent.py`: tabular Q-learning agent
+- `examples/train_fire_avoidance.py`: training and evaluation demo
+- `tests/test_gridworld.py`: reward and termination checks
+- `tests/test_learning.py`: verifies training improves behavior
+- `main.py`: local demo entrypoint and optional FastAPI app
 
-This will be the first proof-of-concept for grounded learning.
+## Run the agent
 
----
+```powershell
+python main.py
+```
 
-## 🧱 Repo Structure
-neurocore-sandbox/
-│
-├── /env # Simulation world (Unity, Gym, or grid-based)
-├── /agent # Agent learning system
-├── /scripts # Run + test demos
-├── /data # Logs, concept graphs
-├── README.md
-├── requirements.txt
-└── LICENSE
----
+## Run the tests
 
-## 🛠 Tech Stack (Suggestions)
+```powershell
+python -m unittest discover -s tests
+```
 
-- Python (Gym, PyBullet, or even gridworld)
-- PyTorch or JAX
-- Optional: Unity ML-Agents for richer sim
+## Optional API mode
 
----
+If FastAPI and Pydantic are installed, `main.py` also exposes a small `/ground` endpoint for text grounding compatibility.
 
-## 🤝 Join Us
+## Current limitations
 
-This is an open movement — not a product.
+- no graphics or web UI yet
+- no persistent memory yet
+- no multimodal perception yet
+- the current environment is intentionally tiny and deterministic
 
-Contribute ideas, code, concepts, or designs.  
-**Join the community → [Discord Invite Coming Soon]**
+## Suggested next steps
 
-- 💡 Suggest ideas → GitHub Issues
-- 🔧 Build components → Pull Requests
-- 🧠 Share cognitive frameworks → Discussions
-
----
-
-## 📄 License
-
-MIT — Fork, modify, and build freely.
-
+1. Add a terminal or graphical episode renderer.
+2. Save metrics to CSV or JSON logs.
+3. Add randomized maps and evaluate generalization.
+4. Add a lightweight web UI to watch training live.
+5. Explore neural policies only after the toy loop is solid.
